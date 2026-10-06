@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS kopma_040
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER IF NOT EXISTS 'mhs_040'@'localhost' IDENTIFIED BY 'PasswordKerja#040';
+GRANT ALL PRIVILEGES ON kopma_040.* TO 'mhs_040'@'localhost';
