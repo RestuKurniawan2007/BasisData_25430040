@@ -6,7 +6,7 @@
 
 
 
-&#x09;Klinik Restu Farma (RF) adalah fasilitas pelayanan kesehatan yang menyediakan layanan pemeriksaan umum, tindakan medis dasar, pemeriksaan laboratorium sederhana, serta pengelolaan farmasi (apotek). Kebutuhan akan sistem basis data yang terstruktur diperlukan untuk mengelola data rekam medis pasien, riwayat kunjungan, transaksi tindakan, serta pengontrolan persediaan obat.
+&#x09;Klinik Restu Farma (RF) adalah fasilitas pelayanan kesehatan yang menyediakan pemeriksaan kesehatan dan konsultasi oleh dokter, tindakan medis dasar, penanganan luka dan nebulisasi, layanan farmasi (apotek), pemeriksaan laboratorium sederhana (gula darah, asam urat, kolesterol), serta layanan kesehatan ibu, anak, dan vaksinasi. Sistem basis data yang terstruktur diperlukan untuk mengelola data rekam medis pasien, riwayat kunjungan, transaksi tindakan, dan pengendalian persediaan obat.
 
 
 
@@ -16,11 +16,12 @@
 
 |***kode***|***Proses Bisnis***|***Aktor***|***Pemicu***|
 |-|-|-|-|
-|PB-01|Pendaftarkan Pasien Baru|Resepsionis|Pasien baru datang berobat|
+|PB-01|Pendaftaran Pasien Baru|Resepsionis|Pasien baru datang berobat|
 |PB-02|Mencatat Rekam Medis \& Tindakan|Dokter|Pasien masuk ruang pemeriksaan|
 |PB-03|Pengelolaan Stok \& Resep Obat|Apoteker|Dokter memberikan resep / stok menipis|
 |PB-04|Pembayaran Layanan \& Obat|Kasir|Pasien selesai mendapatkan layanan|
 |PB-05|Penyusunan Laporan Bulanan|kepala Klinik|Memasuki awal bulan|
+|PB-06|Pengelolaan Data petugas|Kepala Klinik|Petugas baru bergabung atau data pertugas berubah |
 
 
 
@@ -56,12 +57,12 @@
 |***Kode***|***Aturan Bisnis***|
 |-|-|
 |AB-01|Setiap kunjungan memiliki nomor transaksi yang unik dan ditangani oleh satu dokter penanggung jawab.|
-|AB-2|Stok obat tidak boleh bernilai negatif; transaksi penebusan obat akan ditolak jika kuantitas melebihi stok tersedia.|
+|AB-02|Stok obat tidak boleh bernilai negatif; transaksi penebusan obat akan ditolak jika kuantitas melebihi stok tersedia.|
 |AB-03|Batas maksimal obat yang dapat diresepkan dalam satu kunjungan adalah 7 jenis obat.|
 |AB-04|Pasien dengan kriteria khusus/program tertentu berhak mendapatkan potongan diskon layanan sebesar 5 persen.|
 |AB-05|Harga obat pada detail resep dicatat per baris transaksi dan bersifat tetap, tidak berubah meskipun harga master obat mengalami kenaikan di masa mendatang.|
 |AB-06|Nomor Induk Kependudukan (NIK) pasien bersifat unik dan wajib diisi untuk menghindari duplikasi data.|
-|AB-07|Sistem harus mencatat pengadaan ulang jika stok obat berada di bawah batas minimum.|
+|AB-07|Sistem harus menandai obat yang stoknya di bawah batas minimum sebagai daftar kebutuhan pengadaan ulang. Pencatatan pengadaan itu sendiri berada di luar lingkup basis data ini.|
 |AB-08|pelayanan kunjungan dapat berupa tindakan medis murni tanpa harus disertai penebusan resep obat.|
 
 
@@ -77,7 +78,7 @@
 |KI-01|Rekapitulasi omzet dan jumlah kunjungan per hari/bulan|Kunjungan, Detail Resep, Detail Tindakan|
 |KI-02|Daftar 5 obat yang paling sering diresepkan|Obat, Detail Resep|
 |KI-03|Daftar obat di apotek yang sudah mencapai batas minimum|Obat|
-|KI-04|Laporan pasien dengan total akumulasi tagihan terbesar|Pasien, Kunjungan, Detail Obat|
+|KI-04|Laporan pasien dengan total akumulasi tagihan terbesar|Pasien, Kunjungan, Detail Resep, Detail Tindakan|
 |KI-05|Rekapitulasi jenis tindakan medis/lab yang sering digunakan|Detail Tindakan|
 
 
@@ -100,9 +101,10 @@
 |-|-|-|-|-|-|-|
 |PB-01|C, R|-|-|-|-|-|
 |PB-02|R, U|R|-|C|C|-|
-|PB-03|-|-|R, U|R|-|C|
+|PB-03|-|-|C, R, U|R|-|C|
 |PB-04|R|R|R|U|R|R|
 |PB-05|R|R|R|R|R|R|
+|PB-06|-|C, R, U|-|-|-|-|
 
 
 
@@ -114,13 +116,15 @@
 
 |***Nama Elemen***|***Deskripsi***|***Contoh Nilai***|***Aturan***|***Penanggung Jawab***|
 |-|-|-|-|-|
-|No rm|Nomer Rekaman Medis Pasien|RM-0012|Unik, Format Tetap|Resepsionis|
+|No RM|Nomer Rekaman Medis Pasien|RM-0012|Unik, Format Tetap|Resepsionis|
 |NIK|Nomer Induk Kependudukan|1234567890123456|Unik  16 Digit|Resepsionis|
 |Nama Pasien|Nma Lengkap Pasien|Restu Kurniawan|Wajib Diisi|Resepsionis|
 |Kode Obat|Kode Indentifikasi Obat|OB-001|Unik|Resepsionis|
 |Stok Obat|Jumah Ketersedian Stok|50|Bilangan Bulat|Apoteker|
 |No Kunjungan|Nomer Kunjungan|KJ-1001|Unit Pertranskasi|Resepsionis|
 |Quantity Resep|Jumlah Obat Yang DItebus|2|Maksimal 7 (P+2)|Apoteker|
+||||||
+||||||
 
 
 
@@ -130,7 +134,7 @@
 
 
 
-* Parameter Proyek		:Berdasarkan NIM 25430040, diperoleh nilai parameter P yaitu 5.
-* Volume Transaksi		:Diperkirakan melayani sekitar 65 kunjungan pasien per hari. Arsip data rekam medis disimpan sekurang-kurangnya selama 5 tahun.
-* Privasi dan Keamanan Data	:NIK, nomor kontak, riwayat keluhan, serta diagnosis medis dikategorikan sebagai data pribadi spesifik. Akses data klinis ini dibatasi secara ketat dan hanya boleh diakses oleh Dokter serta Apoteker yang berwenang.
+* Parameter proyek: Berdasarkan NIM 25430040, diperoleh nilai P = 5 (batas resep P + 2 = 7 jenis obat, diskon 5 persen).
+* Volume transaksi: Diperkirakan melayani sekitar 65 kunjungan pasien per hari. Arsip data rekam medis disimpan sekurang-kurangnya 5 tahun.
+* Privasi dan keamanan data: NIK, nomor kontak, keluhan, dan diagnosis medis dikategorikan sebagai data pribadi spesifik. Akses data klinis ini dibatasi secara ketat dan hanya boleh dilakukan oleh Dokter serta Apoteker yang berwenang.
 
