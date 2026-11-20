@@ -21,7 +21,7 @@
 |PB-03|Pengelolaan Stok \& Resep Obat|Apoteker|Dokter memberikan resep / stok menipis|
 |PB-04|Pembayaran Layanan \& Obat|Kasir|Pasien selesai mendapatkan layanan|
 |PB-05|Penyusunan Laporan Bulanan|kepala Klinik|Memasuki awal bulan|
-|PB-06|Pengelolaan Data petugas|Kepala Klinik|Petugas baru bergabung atau data pertugas berubah |
+|PB-06|Pengelolaan Data petugas|Kepala Klinik|Petugas baru bergabung atau data pertugas berubah|
 
 
 
@@ -34,6 +34,35 @@
 * Dokumen		:Lembar Rekam Medis \& Struk Pembayaran Klinik.
 * Elemen Disimpan	:Nomor Kunjungan, Waktu Transaksi, Identitas Pasien, Dokter Pemeriksa, Jenis Tindakan, serta Daftar Obat beserta kuantitas dan harga saat transaksi.
 * Nilai Turunan	: Subtotal biaya obat dan Total tagihan keseluruhan.
+
+
+
+Contoh Isi Dokumen :
+
+|No. Kunjungan /Waktu|KJ-1001 /14-11-2026 10:30|
+|-|-|
+|Pasien|RM-0012, Restu Kurniawan|
+|Dokter Pemeriksa|dr.Ayu Lestari|
+|Keluhan /Diagnosis|Demam Tiga  Hari /Influenza|
+|Tindakan|Pemeriksaan Umun, biaya 35.000|
+|Obat|Paracetamol 500 mg, qty 2, Harga satuan 5.000|
+|Kasir|Rina|
+
+
+
+Pembedahan Data :
+
+|**Bagian dokumen**|**Elemen data**|**Entitas**|**Jenis**|
+|-|-|-|-|
+|Nomer dan waktu|No. Kunjungan, tanggal, waktu|Kunjungan|Disimpan|
+|Identitas pasien|No. RM, NIK, nama, No.HP|Pasien|Disimpan, NIK dan No. HP, data pribadi|
+|Dokter dan kasir|ID dokter, ID kasir|Petugas|DISimpan|
+|Keluahan dan diagnosis|Keluhan, diagnosis|kunjungan|Disimpan, data pribadi spesifik|
+|Baris tindakan|Nama Tindakan, biaya|detail\_tindakan|Disimpan|
+|Baris obat|Kode obat, qty, Harga satuan saat resep|detail\_resep|Disimpan|
+|**Subtotal obat, diskon, total**|**Qty x Harga, 5, jumlah**|**-**|**Turunan, dihitung**|
+
+
 
 
 
@@ -119,12 +148,25 @@
 |No RM|Nomer Rekaman Medis Pasien|RM-0012|Unik, Format Tetap|Resepsionis|
 |NIK|Nomer Induk Kependudukan|1234567890123456|Unik  16 Digit|Resepsionis|
 |Nama Pasien|Nma Lengkap Pasien|Restu Kurniawan|Wajib Diisi|Resepsionis|
+|No. HP|Nomer telpon pasien|081234567890|Dta Pribadi, akses haya Dokter dan Apoteker|Resepsionis|
+|Status Diskon Pasien|Penanda pasien berhak diskon 5%|Ya|Ya atau Tidak (AB-04)|Resepsionis|
+|Nama Petugas|Nama Lengkap|dr.Ayu Letari|Wajib diisi|Kepala Klinik|
+|Peran Petugas|Peran kerja petugas|Dokter|Dokter, Kasir, atau Apoteker|Kepala Klinik|
 |Kode Obat|Kode Indentifikasi Obat|OB-001|Unik|Resepsionis|
+|Nama Obat|Nama dan kekuatan obat|Paracetamol 500mg|Wajib diisi|Apoteker|
+|Kategori Obat|Golongan atau jenis obat|Analgesik|Wajib diisi|Apoteker|
+|Harga Jual Obat|Harga master obat per satuan|5000|Bilangan minimal 0|Apoteker|
 |Stok Obat|Jumah Ketersedian Stok|50|Bilangan Bulat|Apoteker|
+|Batas MinimumStok|Ambang stok untuk pengadaan ulang|10|Bilangan bulat minimal 0|Apoteker|
 |No Kunjungan|Nomer Kunjungan|KJ-1001|Unit Pertranskasi|Resepsionis|
+|Tanggal Kunjungan|Tanggal dan waktu kunjungan|14-11-2026 10:30|Wajib, tidak boleh kosong|Resepsionis|
+|Keluhan Kunjungan|Keluahan pasien saat datang|Demam tiga hari|Data pribadi spesifik, akses terbatas|Dokter|
+|Diagnosis Kunjungan|Diagnosis dokter|Influenza|Data pribadi spesifik, akses hanya dokter|Doter|
+|Jumlah Bayar|Nominal yang dibayar pasien|85000|Bilangan minimal 0, diisi saat pembayaran|Kasir|
+|Nama Tindakan|jenis tindakan medis atau lab|Penanganan luka|Wajib diisi|Kasir|
+|Biaya Tindakan|Biaya pertindakan|35000|Bilangan minimal 0|Dokter|
 |Quantity Resep|Jumlah Obat Yang DItebus|2|Maksimal 7 (P+2)|Apoteker|
-||||||
-||||||
+|Harga Satuan Resep|Harga Salinan Obat Saat Resep|5000|Tetap, tidak berubah mengikuti harga master (AB-05)|Apoteker|
 
 
 

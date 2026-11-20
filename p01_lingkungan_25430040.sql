@@ -1,4 +1,8 @@
-1. Basis data praktikum dan akun kerja (studi kasus Kopma)
+Password sengaja diganti penanda. JANGAN commit password asli.
+Ganti <password_kerja>, <password_dev>, dan <password_tamu> saat menjalankan di komputer sendiri.
+Skrip dapat dijalankan berulang kali: mysql -u root -p 
+
+1.Basis data praktikum dan akun kerja (studi kasus Kopma)
 CREATE DATABASE IF NOT EXISTS kopma_040
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS 'mhs_040'@'localhost' IDENTIFIED BY '<password_kerja>';
